@@ -77,6 +77,9 @@ class ERPMapper
     {
         $reversed = [];
         foreach ($mapping as $externalField => $odooField) {
+            if (is_array($odooField)) {
+                continue;
+            }
             if (isset($data[$odooField])) {
                 $reversed[$externalField] = $data[$odooField];
             }

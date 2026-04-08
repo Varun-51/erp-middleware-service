@@ -46,15 +46,12 @@ class OdooService
 
     public function getProducts(array $fields = ['id', 'name', 'default_code', 'list_price'], ?int $limit = null): array
     {
-        $kwargs = [
-            'fields' => $fields,
-            'domain' => [['sale_ok', '=', true]],
-        ];
+        $kwargs = ['fields' => $fields];
         if ($limit) {
             $kwargs['limit'] = $limit;
         }
 
-        return $this->execute_kw('product.product', 'search_read', [[]], $kwargs);
+        return $this->execute_kw('product.product', 'search_read', [[['sale_ok', '=', true]]], $kwargs);
     }
 
     public function getSalesOrder(int $orderId, array $fields = ['id', 'name', 'state', 'partner_id', 'order_line']): ?array
