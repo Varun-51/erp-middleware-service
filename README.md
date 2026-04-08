@@ -398,6 +398,4 @@ routes/
 └── api.php                      # API route definitions
 ```
 
-## License
 
-This project was created for the Solutech Limited ERP Support Engineer Technical Assessment.
