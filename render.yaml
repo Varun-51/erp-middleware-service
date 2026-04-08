@@ -1,0 +1,8 @@
+# Render Blueprint Configuration
+# This file is optional - you can configure directly in Render dashboard
+# For manual setup, see RENDER_DEPLOYMENT.md
+
+services:
+  - type: web
+    name: odoo-erp-integration
+    plan: free

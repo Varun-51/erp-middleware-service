@@ -1,0 +1,144 @@
+{
+  "info": {
+    "name": "Odoo ERP Integration API",
+    "description": "API collection for Odoo ERP Integration Service - Technical Assessment",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "123456"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/health",
+          "host": ["{{base_url}}"],
+          "path": ["api", "health"]
+        },
+        "description": "Check if the API service is running"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Customers",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/customers?limit=50",
+          "host": ["{{base_url}}"],
+          "path": ["api", "customers"],
+          "query": [
+            {
+              "key": "limit",
+              "value": "50"
+            }
+          ]
+        },
+        "description": "Retrieve list of customers from Odoo res.partner"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Products",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/products?limit=50",
+          "host": ["{{base_url}}"],
+          "path": ["api", "products"],
+          "query": [
+            {
+              "key": "limit",
+              "value": "50"
+            }
+          ]
+        },
+        "description": "Retrieve list of products from Odoo product.product"
+      },
+      "response": []
+    },
+    {
+      "name": "Create Sales Order",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          },
+          {
+            "key": "X-API-KEY",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"external_ref\": \"ORDER-001\",\n  \"customer_id\": 1,\n  \"notes\": \"Test order from API\",\n  \"items\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 2,\n      \"price\": 100.00,\n      \"description\": \"Product A description\"\n    },\n    {\n      \"product_id\": 2,\n      \"quantity\": 1,\n      \"price\": 50.00,\n      \"description\": \"Product B description\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base_url}}/api/orders",
+          "host": ["{{base_url}}"],
+          "path": ["api", "orders"]
+        },
+        "description": "Create a new sales order in Odoo. Use Get Customers and Get Products endpoints to find valid IDs."
+      },
+      "response": []
+    },
+    {
+      "name": "Get Sales Order",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-KEY",
+            "value": "{{api_key}}",
+            "type": "text"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/api/orders/1",
+          "host": ["{{base_url}}"],
+          "path": ["api", "orders", "1"]
+        },
+        "description": "Retrieve a specific sales order by ID"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string",
+      "description": "Base URL of the API (local or hosted)"
+    },
+    {
+      "key": "api_key",
+      "value": "your-api-key-here",
+      "type": "string",
+      "description": "API key from your .env file"
+    }
+  ]
+}
