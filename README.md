@@ -193,16 +193,50 @@ X-API-KEY: your-api-key
       "price": 100.00,
       "description": "Product description"
     }
-  ]
+  ],
+  "confirm": false
 }
 ```
+
+**Parameters:**
+- `confirm` (optional, boolean): 
+  - `false` or omitted: Creates a **draft quotation** (state = draft)
+  - `true`: Creates a **confirmed sales order** (state = sale)
 
 **Response (201 Created):**
 ```json
 {
   "status": "success",
   "data": {
-    "order_id": 123
+    "order_id": 123,
+    "state": "draft"
+  }
+}
+```
+
+**Example: Create and Confirm Order**
+```json
+{
+  "external_ref": "ORDER-002",
+  "customer_id": 1,
+  "items": [
+    {
+      "product_id": 1,
+      "quantity": 1,
+      "price": 50.00
+    }
+  ],
+  "confirm": true
+}
+```
+
+Response:
+```json
+{
+  "status": "success",
+  "data": {
+    "order_id": 124,
+    "state": "sale"
   }
 }
 ```

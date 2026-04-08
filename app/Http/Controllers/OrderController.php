@@ -27,6 +27,7 @@ class OrderController extends Controller
             'items.*.product_id' => 'required|integer|min:1',
             'items.*.quantity' => 'required|numeric|min:0.01',
             'items.*.price' => 'required|numeric|min:0',
+            'confirm' => 'nullable|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -38,12 +39,20 @@ class OrderController extends Controller
         }
 
         try {
+            $shouldConfirm = $data['confirm'] ?? false;
             $odooOrderData = $this->mapper->mapSalesOrder($data);
             $orderId = $this->odooService->createSalesOrder($odooOrderData);
 
+            if ($shouldConfirm) {
+                $this->odooService->confirmSalesOrder($orderId);
+            }
+
             return response()->json([
                 'status' => 'success',
-                'data' => ['order_id' => $orderId],
+                'data' => [
+                    'order_id' => $orderId,
+                    'state' => $shouldConfirm ? 'sale' : 'draft',
+                ],
             ], 201);
         } catch (\InvalidArgumentException $e) {
             return response()->json([
