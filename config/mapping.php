@@ -38,7 +38,6 @@ return [
     'defaults' => [
         'sales_order' => [
             'state' => 'draft',
-            'order_policy' => 'manual',
         ],
     ],
 ];
