@@ -13,6 +13,10 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN mkdir -p bootstrap/cache storage/logs \
+    && chmod -R 775 bootstrap/cache storage/logs \
+    && chown -R www-data:www-data bootstrap/cache storage/logs
+
 RUN composer install --no-dev --optimize-autoloader
 
 RUN a2enmod rewrite
