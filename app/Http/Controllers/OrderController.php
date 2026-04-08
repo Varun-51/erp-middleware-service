@@ -18,7 +18,9 @@ class OrderController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
+        $data = $request->json()->all() ?? $request->all();
+        
+        $validator = Validator::make($data, [
             'external_ref' => 'required|string|max:50',
             'customer_id' => 'required|integer|min:1',
             'items' => 'required|array|min:1',
@@ -36,7 +38,7 @@ class OrderController extends Controller
         }
 
         try {
-            $odooOrderData = $this->mapper->mapSalesOrder($request->all());
+            $odooOrderData = $this->mapper->mapSalesOrder($data);
             $orderId = $this->odooService->createSalesOrder($odooOrderData);
 
             return response()->json([
