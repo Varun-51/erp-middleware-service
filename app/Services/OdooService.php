@@ -138,12 +138,17 @@ class OdooService
             $data = json_decode($response->getBody()->getContents(), true);
 
             if (isset($data['error'])) {
-                throw new \Exception($data['error']['message']);
+                Log::error('Odoo API error', ['error' => $data['error']]);
+                throw new \Exception('Odoo Server Error: ' . json_encode($data['error']));
             }
 
             return $data['result'];
         } catch (RequestException $e) {
-            throw new \Exception('API call failed: ' . $e->getMessage());
+            Log::error('Odoo API request failed', ['error' => $e->getMessage()]);
+            throw new \Exception('Odoo Server Error');
+        } catch (\Exception $e) {
+            Log::error('Odoo API exception', ['error' => $e->getMessage()]);
+            throw $e;
         }
     }
 
