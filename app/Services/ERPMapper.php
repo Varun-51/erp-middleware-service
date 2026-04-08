@@ -52,7 +52,7 @@ class ERPMapper
         if (isset($odooData['order_line']) && is_array($odooData['order_line'])) {
             $reversedOrder['items'] = array_map(
                 fn($line) => $this->reverseMapFields(
-                    is_array($line) && isset($line[2]) ? $line[2] : $line,
+                    is_array($line) && isset($line[2]) ? $line[2] : (is_array($line) ? $line : []),
                     $lineMapping
                 ),
                 $odooData['order_line']
